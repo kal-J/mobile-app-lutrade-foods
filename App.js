@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
+import * as Font from 'expo-font';
+import {View, ActivityIndicator} from 'react-native';
+import HomeScreenRouter from './screens/HomeScreenRouter';
+import GeneralStatusBar from './components/GeneralStatusBar';
+import colors from './layouts/colors';
 
-export default function App() {
+const App = () => {
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    (async function() {
+      await Font.loadAsync({
+        Roboto_medium: require('./assets/fonts/Roboto-Medium.ttf'),
+      });
+      setIsReady(true);
+    })();
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <Provider store={store}>
+      <GeneralStatusBar
+        backgroundColor={colors.primary}
+      />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+      <View style={{flex: 1}}>
+        {isReady ? <HomeScreenRouter /> : <ActivityIndicator />}
+      </View>
+    </Provider>
+  );
+};
+
+export default App;
