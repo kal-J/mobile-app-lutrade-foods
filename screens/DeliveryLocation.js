@@ -35,6 +35,7 @@ const DeliveryLocation = (props) => {
   if (!location) {
     return <Splash />;
   }
+
   return (
     <View style={{ flex: 1 }}>
       <NavHeader navigation={props.navigation} />

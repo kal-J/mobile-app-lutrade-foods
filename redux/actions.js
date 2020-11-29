@@ -1,28 +1,32 @@
 const changeCampus = (value) => ({
-  type: "CHANGE_CAMPUS",
+  type: 'CHANGE_CAMPUS',
   payload: value,
 });
 
 const changePickupPoint = (value) => ({
-  type: "CHANGE_PICKUP_POINT",
+  type: 'CHANGE_PICKUP_POINT',
   payload: value,
 });
 
 const newOrder = (value) => ({
-  type: "NEWORDER",
+  type: 'NEWORDER',
   payload: value,
 });
 
 const setUser = (value) => ({
-  type: "SETUSER",
+  type: 'SETUSER',
   payload: value,
 });
 const updateCart = (value) => ({
-  type: "UPDATECART",
+  type: 'UPDATECART',
   payload: value,
 });
 const placeOrder = (value) => ({
-  type: "PLACEORDER",
+  type: 'PLACEORDER',
+  payload: value,
+});
+const setVendors = (value) => ({
+  type: 'SETVENDORS',
   payload: value,
 });
 
@@ -33,4 +37,5 @@ export {
   setUser,
   updateCart,
   placeOrder,
+  setVendors,
 };

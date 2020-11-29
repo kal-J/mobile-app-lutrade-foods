@@ -5,6 +5,7 @@ import Vendor from "../components/Vendor";
 import { View, FlatList } from "react-native";
 import { VENDORS } from "../dummy_data/vendors";
 import { mapStateToProps } from "../redux/mapStateToProps";
+import firebase from '../firebase';
 import {
   Container,
   Header,
@@ -18,15 +19,31 @@ import {
 } from "native-base";
 
 const Vendors = (props) => {
-  const [vendors, setVendors] = useState();
+  const [vendors, setVendors] = useState([]);
   useEffect(() => {
-    setVendors(
-      VENDORS.filter((vendor, index) =>
-        vendor.delivers_to.find(
-          (val) => val.campus === props.redux_state.campus
-        )
-      )
-    );
+
+    // fetch vendors/restaurants
+    let restaurants = [];
+    firebase.firestore().collection('restaurants').get().then(querySnapshot => {
+      if(!querySnapshot.empty) {
+        querySnapshot.forEach(doc => {
+          restaurants.push({id: doc.id, ...doc.data()})
+        });
+        setVendors(
+          restaurants.filter((vendor, index) =>
+            {
+              if(!(vendor.delivers_to)){
+                return false;
+              }
+              return vendor.delivers_to.find(
+              (val) => val.campus === props.redux_state.campus
+            )}
+          )
+        );
+      }
+    })
+
+    
   }, [props.redux_state.campus]);
   
   // return loading screen if not done fetching vendors

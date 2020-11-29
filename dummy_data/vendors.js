@@ -8,13 +8,21 @@ const VENDORS = [
       {
         campus: "Lira University",
         fee: 2000,
+        pickupPoints: []
       },
       {
         campus: "UTC Lira",
         fee: 2000,
+        pickupPoints: []
       },
     ],
+
+    menu: [],
+    
   },
+
+
+
   {
     id: 2,
     name: "Abbey's Joint",

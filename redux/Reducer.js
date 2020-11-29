@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
 const INITIAL_STATE = {
   user: {
@@ -9,35 +9,37 @@ const INITIAL_STATE = {
     menu: null,
     delivery_fee: null,
   },
-  campus: "Lira University",
-  pickupPoint: "Blackroof",
+  campus: 'Lira University',
+  pickupPoint: 'Blackroof',
   delivery_fee: 2000,
   // holds cart items
   orders: [],
   // holds cart on checkout
   ordersPlaced: [],
+  vendors: [],
+
 };
 
 const mainReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "CHANGE_CAMPUS": {
+    case 'CHANGE_CAMPUS': {
       let new_campus = action.payload;
       let newState = { ...state, campus: new_campus };
       return newState;
     }
-    case "CHANGE_PICKUP_POINT": {
+    case 'CHANGE_PICKUP_POINT': {
       let new_pickupPoint = action.payload;
       let newState = { ...state, pickupPoint: new_pickupPoint };
       return newState;
     }
-    case "NEWORDER": {
+    case 'NEWORDER': {
       let new_order = action.payload;
       let orders = state.orders;
       orders.push(new_order);
       let newState = { ...state, orders: orders };
       return newState;
     }
-    case "PLACEORDER": {
+    case 'PLACEORDER': {
       const order = action.payload;
       let ordersPlaced = state.ordersPlaced;
       ordersPlaced.push(order);
@@ -45,7 +47,7 @@ const mainReducer = (state = INITIAL_STATE, action) => {
       return newState;
     }
 
-    case "UPDATECART": {
+    case 'UPDATECART': {
       const orders = action.payload;
       if (orders.length === 0) {
         const newState = {
@@ -63,12 +65,29 @@ const mainReducer = (state = INITIAL_STATE, action) => {
       return newState;
     }
 
-    case "SETUSER": {
-      const auth_payload = action.payload;
-      
+    case 'SETUSER': {
+      const user = action.payload;
+
       const newState = {
         ...state,
-        user: { ...state.user, ... auth_payload },
+        user: {
+          get isLoggedin() {
+            if (user.uid) {
+              return true;
+            }
+            return false;
+          },
+          ...user,
+        },
+      };
+      return newState;
+    }
+    case 'SETVENDORS': {
+      const vendors = action.payload;
+
+      const newState = {
+        ...state,
+        vendors,
       };
       return newState;
     }

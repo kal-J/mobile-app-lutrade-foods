@@ -24,6 +24,7 @@
     "react-native-auth0": "^2.3.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.8.0",
+    "react-native-responsive-screen": "^1.4.1",
     "react-native-screens": "^2.5.0",
     "react-native-unimodules": "^0.9.0",
     "react-native-vector-icons": "^6.6.0",
@@ -31,7 +32,8 @@
     "react-navigation": "^4.3.8",
     "react-navigation-drawer": "^2.4.12",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "firebase": "7.9.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

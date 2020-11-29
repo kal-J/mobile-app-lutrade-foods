@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Provider} from 'react-redux';
-import {store} from './redux/store';
+import React, { useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 import * as Font from 'expo-font';
-import {View, ActivityIndicator} from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import HomeScreenRouter from './screens/HomeScreenRouter';
 import GeneralStatusBar from './components/GeneralStatusBar';
 import colors from './layouts/colors';
+import AppAuthStateListener from './components/AppAuthStateListener';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
@@ -20,13 +21,13 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <GeneralStatusBar
-        backgroundColor={colors.primary}
-      />
+      <GeneralStatusBar backgroundColor={colors.primary} />
 
-      <View style={{flex: 1}}>
-        {isReady ? <HomeScreenRouter /> : <ActivityIndicator />}
-      </View>
+      <AppAuthStateListener>
+        <View style={{ flex: 1 }}>
+          {isReady ? <HomeScreenRouter /> : <ActivityIndicator />}
+        </View>
+      </AppAuthStateListener>
     </Provider>
   );
 };

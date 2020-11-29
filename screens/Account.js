@@ -4,7 +4,7 @@ import { mapStateToProps } from '../redux/mapStateToProps';
 import { setUser } from '../redux/actions';
 import { View, Image, ActivityIndicator, StyleSheet } from 'react-native';
 import NavHeader from '../components/NavHeader';
-import { login, logout, signup } from '../auth/Auth';
+import { login, logout } from '../auth/Auth';
 import {
   Container,
   Card,
@@ -16,6 +16,7 @@ import {
   Text,
 } from 'native-base';
 import colors from '../layouts/colors';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const Account = (props) => {
   const [isloading, setIsloading] = useState(false);
@@ -35,29 +36,40 @@ const Account = (props) => {
   if (error) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{error}</Text>
+        <Text
+          style={{
+            textAlign: 'center',
+            marginHorizontal: widthPercentageToDP(5),
+          }}
+        >
+          {error}
+        </Text>
       </View>
     );
   }
 
   if (loggedin) {
-    const user = props.redux_state.user.userInfo;
     return (
       <Container>
         <NavHeader navigation={props.navigation} />
         <View style={{ flex: 1 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Text>{user.email}</Text>
-          </View>
           <View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           >
             <Button
               full
-              style={{ backgroundColor: colors.primary, margin: 40 }}
+              style={{
+                backgroundColor: colors.primary,
+                margin: widthPercentageToDP(5),
+              }}
               onPress={() => {
                 setIsloading(true);
-                logout(props.setUser, setIsloading, setError);
+                logout()
+                  .then(() => {
+                    props.setUser({});
+                    setIsloading(false);
+                  })
+                  .catch((error) => setError(error));
               }}
             >
               <Text>LOGOUT</Text>
@@ -67,6 +79,7 @@ const Account = (props) => {
       </Container>
     );
   }
+
   return (
     <Container>
       <NavHeader navigation={props.navigation} />
@@ -76,11 +89,10 @@ const Account = (props) => {
           full
           style={{ backgroundColor: colors.primary, margin: 50 }}
           onPress={() => {
-            setIsloading(true);
-            signup(props.setUser, setIsloading, setError);
+            props.navigation.navigate('Login');
           }}
         >
-          <Text>SIGN UP</Text>
+          <Text>LOGIN</Text>
         </Button>
       </View>
     </Container>

@@ -80,7 +80,9 @@ class Order extends Component {
             </CardItem>
             <CardItem>
               <Left>
-                <Text>{description}</Text>
+                <Text style={{
+                      fontSize: 12
+                    }}>{description}</Text>
               </Left>
             </CardItem>
           </Card>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { updateCart } from "../redux/actions";
-import { mapStateToProps } from "../redux/mapStateToProps";
-import colors from "../layouts/colors";
-import {thousands_separator} from '../utils/number_formatter';
-import { View, Alert, StyleSheet, ScrollView } from "react-native";
-import CartItem from "../components/CartItem";
-import NavHeader from "../components/NavHeader";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { updateCart } from '../redux/actions';
+import { mapStateToProps } from '../redux/mapStateToProps';
+import colors from '../layouts/colors';
+import { thousands_separator } from '../utils/number_formatter';
+import { View, Alert, StyleSheet, ScrollView } from 'react-native';
+import CartItem from '../components/CartItem';
+import NavHeader from '../components/NavHeader';
 import {
   Container,
   Header,
@@ -16,8 +16,7 @@ import {
   Body,
   Right,
   Text,
-} from "native-base";
-
+} from 'native-base';
 
 const Cart = (props) => {
   const [deliveryFee, setDeliveryFee] = useState(
@@ -47,20 +46,18 @@ const Cart = (props) => {
     );
   }, [props.redux_state]);
 
-  
-
   if (orders.length === 0) {
     return (
       <Container>
         <NavHeader
           title="Cart"
           icon="arrow-back"
-          onPressCallback={() => props.navigation.navigate("Menu")}
+          onPressCallback={() => props.navigation.navigate('Menu')}
         />
         <View
           style={{
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
             marginVertical: 20,
           }}
         >
@@ -68,26 +65,26 @@ const Cart = (props) => {
         </View>
         <View
           style={{
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             height: 100,
             width: 100,
             backgroundColor: colors.primary,
             borderRadius: 50,
-            alignSelf: "center",
+            alignSelf: 'center',
             marginVertical: 20,
           }}
         >
-          <Icon name="cart" style={{ color: "#fff" }} />
+          <Icon name="cart" style={{ color: '#fff' }} />
         </View>
         <View>
           <Button
             style={{
-              justifyContent: "center",
+              justifyContent: 'center',
               backgroundColor: colors.primary,
               margin: 20,
             }}
-            onPress={() => props.navigation.navigate("Vendors")}
+            onPress={() => props.navigation.navigate('Vendors')}
           >
             <Text>Go shop some stuff</Text>
           </Button>
@@ -101,7 +98,7 @@ const Cart = (props) => {
       <NavHeader
         title="Cart"
         icon="arrow-back"
-        onPressCallback={() => props.navigation.navigate("Menu")}
+        onPressCallback={() => props.navigation.navigate('Menu')}
       />
       <ScrollView
         contentContainerStyle={{
@@ -140,8 +137,8 @@ const Cart = (props) => {
       <View style={[{ borderRadius: 10, padding: 30 }, styles.shadow]}>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             borderBottomWidth: 0.5,
             paddingBottom: 20,
           }}
@@ -149,56 +146,59 @@ const Cart = (props) => {
           <Text>Delivery fee</Text>
           <Text>{thousands_separator(deliveryFee)}</Text>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={{ fontWeight: "bold", color: colors.primary }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ fontWeight: 'bold', color: colors.primary }}>
             Total
           </Text>
           <Text
-            style={{ fontWeight: "bold", color: colors.primary }}
+            style={{ fontWeight: 'bold', color: colors.primary }}
           >{`UGX ${thousands_separator(totalPrice)}`}</Text>
         </View>
         <Button
+          full
           style={{
-            justifyContent: "center",
+            justifyContent: 'center',
             backgroundColor: colors.primary,
             borderRadius: 8,
             marginTop: 20,
           }}
           onPress={() => {
             Alert.alert(
-              "Confirm Delivery Location",
-              `Your order will be delivered to ${props.redux_state.campus} at ${props.redux_state.pickupPoint}`,
+              'Confirm Delivery Location',
+              `Your order will be delivered to ${props.redux_state.campus} at ${
+                props.redux_state.pickupPoint
+              }`,
               [
                 {
-                  text: "Change Delivery location",
+                  text: 'Change Delivery location',
                   onPress: () => {
                     Alert.alert(
-                      "warning",
-                      "changing delivery location will discard all items in your cart",
+                      'warning',
+                      'changing delivery location will discard all items in your cart',
                       [
                         {
-                          text: "continue",
+                          text: 'continue',
                           onPress: () => {
                             props.updateCart([]);
-                            props.navigation.navigate("Location");
+                            props.navigation.navigate('Location');
                           },
                         },
                         {
-                          text: "cancel",
-                          onPress: () => props.navigation.navigate("Cart"),
+                          text: 'cancel',
+                          onPress: () => props.navigation.navigate('Cart'),
                         },
                       ]
                     );
                   },
                 },
                 {
-                  text: "continue",
+                  text: 'continue',
                   onPress: () => {
                     props.navigation.navigate({
-                      routeName: "Payment",
+                      routeName: 'Payment',
                       params: {
-                        totalPrice: totalPrice
-                      }
+                        totalPrice: totalPrice,
+                      },
                     });
                   },
                 },
@@ -216,11 +216,14 @@ const Cart = (props) => {
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
 
     shadowOpacity: 0.1,
     elevation: 1,
   },
 });
 
-export default connect(mapStateToProps, { updateCart })(Cart);
+export default connect(
+  mapStateToProps,
+  { updateCart }
+)(Cart);

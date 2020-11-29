@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { View, Alert } from "react-native";
-import NavHeader from "../components/NavHeader";
-import colors from "../layouts/colors";
-import { thousands_separator } from "../utils/number_formatter";
-import { mapStateToProps } from "../redux/mapStateToProps";
-import { placeOrder, updateCart } from "../redux/actions";
-import { Text, Container, Radio, Button, Icon } from "native-base";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { View, Alert } from 'react-native';
+import NavHeader from '../components/NavHeader';
+import colors from '../layouts/colors';
+import { thousands_separator } from '../utils/number_formatter';
+import { mapStateToProps } from '../redux/mapStateToProps';
+import { placeOrder, updateCart } from '../redux/actions';
+import { Text, Container, Radio, Button, Icon } from 'native-base';
 
 const Payment = (props) => {
   const [orderComplete, setOrderComplete] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState("cash on delivery");
-  const totalPrice = props.navigation.getParam("totalPrice");
+  const [paymentMethod, setPaymentMethod] = useState('cash on delivery');
+  const totalPrice = props.navigation.getParam('totalPrice');
 
   if (orderComplete !== null) {
     return (
@@ -20,7 +20,7 @@ const Payment = (props) => {
           onPressCallback={() => {
             props.updateCart([]);
             setOrderComplete(null);
-            props.navigation.navigate("Vendors");
+            props.navigation.navigate('Vendors');
           }}
           icon="close"
           title="Complete Order"
@@ -28,20 +28,22 @@ const Payment = (props) => {
         />
         {Alert.alert(
           `Order with No. ${orderComplete.orderNumber} placed`,
-          `Your Item(s) will be delivered to ${orderComplete.delivery_to.campus} at ${orderComplete.delivery_to.pickupPoint}`,
+          `Your Item(s) will be delivered to ${
+            orderComplete.delivery_to.campus
+          } at ${orderComplete.delivery_to.pickupPoint}`,
           [
             {
-              text: "GO TO MY ORDERS",
+              text: 'GO TO MY ORDERS',
               onPress: () => {
                 setOrderComplete(null);
-                props.navigation.navigate("Orders");
+                props.navigation.navigate('Orders');
               },
             },
             {
-              text: "CONTINUE SHOPPING",
+              text: 'CONTINUE SHOPPING',
               onPress: () => {
                 setOrderComplete(null);
-                props.navigation.navigate("Vendors");
+                props.navigation.navigate('Vendors');
               },
             },
           ],
@@ -49,17 +51,17 @@ const Payment = (props) => {
         )}
         <View
           style={{
-            alignSelf: "center",
+            alignSelf: 'center',
             borderRadius: 50,
             width: 100,
             height: 100,
             backgroundColor: colors.primary,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             marginVertical: 30,
           }}
         >
-          <Icon style={{ color: "#fff" }} name="md-checkmark" />
+          <Icon style={{ color: '#fff' }} name="md-checkmark" />
         </View>
       </Container>
     );
@@ -69,10 +71,10 @@ const Payment = (props) => {
       <NavHeader
         icon="arrow-back"
         navigation={props.navigation}
-        onPressCallback={() => props.navigation.navigate("Cart")}
+        onPressCallback={() => props.navigation.navigate('Cart')}
       />
       <View style={{ flex: 1, margin: 50 }}>
-        <View style={{ flexDirection: "row", marginVertical: 10 }}>
+        <View style={{ flexDirection: 'row', marginVertical: 10 }}>
           <Radio
             color={colors.light}
             selectedColor={colors.primary}
@@ -80,7 +82,7 @@ const Payment = (props) => {
           />
           <Text style={{ marginLeft: 10 }}>Cash on Delivery</Text>
         </View>
-        <View style={{ flexDirection: "row", marginVertical: 10 }}>
+        <View style={{ flexDirection: 'row', marginVertical: 10 }}>
           <Radio
             color={colors.light}
             selectedColor={colors.primary}
@@ -90,8 +92,8 @@ const Payment = (props) => {
         </View>
         <View
           style={{
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             marginVertical: 30,
           }}
         >
@@ -99,14 +101,15 @@ const Payment = (props) => {
         </View>
         <View style={{ marginVertical: 10 }}>
           <Button
+            full
             style={{
-              justifyContent: "center",
+              justifyContent: 'center',
               backgroundColor: colors.primary,
             }}
             onPress={() => {
               const order = {
                 orderNumber: `${Date.now()}${Math.trunc(Math.random() * 9)}`,
-                status: "pending approval",
+                status: 'pending approval',
                 totalPrice: totalPrice,
                 paymentMethod: paymentMethod,
                 items: props.redux_state.orders,
@@ -130,4 +133,7 @@ const Payment = (props) => {
   );
 };
 
-export default connect(mapStateToProps, { placeOrder, updateCart })(Payment);
+export default connect(
+  mapStateToProps,
+  { placeOrder, updateCart }
+)(Payment);

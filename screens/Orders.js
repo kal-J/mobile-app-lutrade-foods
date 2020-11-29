@@ -1,23 +1,23 @@
-import React from "react";
-import { connect } from "react-redux";
-import { updateCart } from "../redux/actions";
-import { mapStateToProps } from "../redux/mapStateToProps";
-import ScrollTabs from "../components/ScrollTabs";
-import NavHeader from "../components/NavHeader";
-import colors from "../layouts/colors";
-import OrderItem from "../components/OrderItem";
-import { Tab, Container, Text, Button } from "native-base";
-import { FlatList, View } from "react-native";
+import React from 'react';
+import { connect } from 'react-redux';
+import { updateCart } from '../redux/actions';
+import { mapStateToProps } from '../redux/mapStateToProps';
+import ScrollTabs from '../components/ScrollTabs';
+import NavHeader from '../components/NavHeader';
+import colors from '../layouts/colors';
+import OrderItem from '../components/OrderItem';
+import { Tab, Container, Text, Button } from 'native-base';
+import { FlatList, View } from 'react-native';
 
 const Orders = (props) => {
   const orders = props.redux_state.ordersPlaced;
   const ongoing = orders.filter(
     (order, index) =>
-      order.status !== "cancelled" && order.status !== "complete"
+      order.status !== 'cancelled' && order.status !== 'complete'
   );
   const past = orders.filter(
     (order, index) =>
-      order.status === "cancelled" || order.status === "complete"
+      order.status === 'cancelled' || order.status === 'complete'
   );
   return (
     <Container>
@@ -33,8 +33,7 @@ const Orders = (props) => {
               data={ongoing}
               keyExtractor={(item, index) => `${index}`}
               renderItem={({ item }) => {
-                return(<OrderItem order={item} />);
-                
+                return <OrderItem order={item} />;
               }}
             />
           ) : (
@@ -42,19 +41,20 @@ const Orders = (props) => {
               <Text
                 style={{
                   color: colors.light,
-                  alignSelf: "center",
+                  alignSelf: 'center',
                   marginVertical: 20,
                 }}
               >
                 No orders ongoing
               </Text>
               <Button
+                full
                 style={{
                   backgroundColor: colors.primary,
                   margin: 50,
-                  justifyContent: "center",
+                  justifyContent: 'center',
                 }}
-                onPress={() => props.navigation.navigate("Vendors")}
+                onPress={() => props.navigation.navigate('Vendors')}
               >
                 <Text>Order Now</Text>
               </Button>
@@ -79,19 +79,20 @@ const Orders = (props) => {
               <Text
                 style={{
                   color: colors.light,
-                  alignSelf: "center",
+                  alignSelf: 'center',
                   marginVertical: 20,
                 }}
               >
                 oops! nothing here
               </Text>
               <Button
+                full
                 style={{
                   backgroundColor: colors.primary,
                   margin: 50,
-                  justifyContent: "center",
+                  justifyContent: 'center',
                 }}
-                onPress={() => props.navigation.navigate("Vendors")}
+                onPress={() => props.navigation.navigate('Vendors')}
               >
                 <Text>Order Now</Text>
               </Button>
