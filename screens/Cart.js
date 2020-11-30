@@ -79,6 +79,7 @@ const Cart = (props) => {
         </View>
         <View>
           <Button
+            full
             style={{
               justifyContent: 'center',
               backgroundColor: colors.primary,

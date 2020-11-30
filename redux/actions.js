@@ -29,6 +29,10 @@ const setVendors = (value) => ({
   type: 'SETVENDORS',
   payload: value,
 });
+const setVendor = (value) => ({
+  type: 'SETVENDOR',
+  payload: value,
+});
 
 export {
   changeCampus,
@@ -38,4 +42,5 @@ export {
   updateCart,
   placeOrder,
   setVendors,
+  setVendor,
 };

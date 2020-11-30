@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import firebase from '../firebase';
 
 const INITIAL_STATE = {
   user: {
@@ -17,7 +18,6 @@ const INITIAL_STATE = {
   // holds cart on checkout
   ordersPlaced: [],
   vendors: [],
-
 };
 
 const mainReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +34,10 @@ const mainReducer = (state = INITIAL_STATE, action) => {
     }
     case 'NEWORDER': {
       let new_order = action.payload;
+
+      //
+      console.log('#########\n');
+      console.log(JSON.stringify(new_order, null, 4));
       let orders = state.orders;
       orders.push(new_order);
       let newState = { ...state, orders: orders };
@@ -41,6 +45,44 @@ const mainReducer = (state = INITIAL_STATE, action) => {
     }
     case 'PLACEORDER': {
       const order = action.payload;
+      // send orders to restaurant
+
+      console.log('==========================');
+      console.log(JSON.stringify(order, null, 2));
+      console.log('==========================');
+      console.log(JSON.stringify(state.ordersPlaced, null, 4));
+
+      order.items.forEach((item) => {
+        firebase
+          .firestore()
+          .collection('restaurants')
+          .doc(item.vendor.id)
+          .get()
+          .then((snapshot) => {
+            let old_orders = snapshot.data().orders;
+            if (!old_orders) {
+              old_orders = [];
+            }
+            firebase
+              .firestore()
+              .collection('restaurants')
+              .doc(item.vendor.id)
+              .update({
+                orders: [
+                  ...old_orders,
+                  {
+                    orderNumber: order.orderNumber,
+                    status: order.status,
+                    paymentMethod: order.paymentMethod,
+                    ...item,
+                  },
+                ],
+              })
+              .catch();
+          })
+          .catch();
+      });
+
       let ordersPlaced = state.ordersPlaced;
       ordersPlaced.push(order);
       let newState = { ...state, ordersPlaced: ordersPlaced };
@@ -88,6 +130,15 @@ const mainReducer = (state = INITIAL_STATE, action) => {
       const newState = {
         ...state,
         vendors,
+      };
+      return newState;
+    }
+    case 'SETVENDOR': {
+      const vendor = action.payload;
+
+      const newState = {
+        ...state,
+        vendor,
       };
       return newState;
     }
